@@ -1,0 +1,337 @@
+// OAT 1 - Questao 1
+// Contador Regressivo para Datas
+// Aluno: Iann Ferreira Evangelista
+
+function calcularContagemRegressiva(dataFutura) {
+  const hoje = new Date();
+  const alvo = new Date(dataFutura);
+
+  const diferenca = alvo.getTime() - hoje.getTime();
+
+  const dias = Math.floor(diferenca / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diferenca / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diferenca / (1000 * 60)) % 60);
+  const segundos = Math.floor((diferenca / 1000) % 60);
+
+  const texto = "Faltam " + dias + " dias, " + horas + "h, " + minutos + "m e " + segundos + "s";
+
+  return {
+    dias: dias,
+    horas: horas,
+    minutos: minutos,
+    segundos: segundos,
+    texto: texto
+  };
+}
+
+
+console.log(calcularContagemRegressiva("2027-01-01T00:00:00"));
+console.log(calcularContagemRegressiva("2026-12-25T00:00:00"));
+console.log(calcularContagemRegressiva("2020-05-10T00:00:00"));
+
+//Questao 2
+// Calculadora de IMC com Classificacao OMS
+
+function calcularIMC(peso, altura) {
+  const imc = peso / (altura * altura);
+  const imcArredondado = Math.round(imc * 100) / 100;
+ 
+  let classificacao;
+ 
+  if (imcArredondado < 18.5) {
+    classificacao = "Abaixo do peso";
+  } else if (imcArredondado < 25.0) {
+    classificacao = "Peso normal";
+  } else if (imcArredondado < 30.0) {
+    classificacao = "Sobrepeso";
+  } else if (imcArredondado < 35.0) {
+    classificacao = "Obesidade Grau I";
+  } else if (imcArredondado < 40.0) {
+    classificacao = "Obesidade Grau II";
+  } else {
+    classificacao = "Obesidade Grau III";
+  }
+ 
+  return {
+    imc: imcArredondado,
+    classificacao: classificacao
+  };
+}
+ 
+ 
+console.log(calcularIMC(78.5, 1.75));
+console.log(calcularIMC(50, 1.70));
+console.log(calcularIMC(110, 1.80));
+console.log(calcularIMC(95, 1.65));
+console.log(calcularIMC(130, 1.75));
+
+//Questao 3
+// Tabuada Dinamica e Formatada
+ 
+function gerarTabuada(numero, limite = 10) {
+  const resultado = [];
+ 
+  for (let i = 1; i <= limite; i++) {
+    resultado.push(`${numero} x ${i} = ${numero * i}`);
+  }
+ 
+  return resultado;
+}
+ 
+ 
+console.log(gerarTabuada(7, 5));
+console.log(gerarTabuada(3));
+console.log(gerarTabuada(9, 3));
+
+
+//Questao 4
+// Validador de Dados de Cadastro de Usuario
+
+
+function validarUsuario(usuario) {
+  const erros = [];
+ 
+  const nome = usuario.nome || "";
+  const email = usuario.email || "";
+  const senha = usuario.senha || "";
+ 
+  if (nome.trim().length < 3) {
+    erros.push("Nome deve ter pelo menos 3 caracteres");
+  }
+ 
+  const arroba = email.indexOf("@");
+  if (arroba === -1 || email.indexOf(".", arroba) === -1) {
+    erros.push("E-mail inválido");
+  }
+ 
+  if (senha.length < 6) {
+    erros.push("Senha deve ter pelo menos 6 caracteres");
+  } else if (!/[0-9]/.test(senha)) {
+    erros.push("Senha deve conter pelo menos 1 número");
+  }
+ 
+  if (erros.length > 0) {
+    return { valido: false, erros: erros };
+  }
+ 
+  return { valido: true };
+}
+ 
+
+ 
+console.log(validarUsuario({ nome: "Al", email: "teste", senha: "123" }));
+console.log(validarUsuario({ nome: "Iann Ferreira", email: "iann@email.com", senha: "abc123" }));
+console.log(validarUsuario({ nome: "", email: "sememail.com", senha: "semnumero" }));
+console.log(validarUsuario({ nome: "Maria", email: "maria@teste.com", senha: "12345" }));
+
+//Questao 5
+// Analisador Estatistico de Numeros em Array
+
+function analisarNumeros(arrayDeNumeros) {
+  if (!arrayDeNumeros || arrayDeNumeros.length === 0) {
+    return {
+      total: 0,
+      maior: null,
+      menor: null,
+      media: 0,
+      pares: 0,
+      impares: 0
+    };
+  }
+ 
+  let soma = 0;
+  let maior = arrayDeNumeros[0];
+  let menor = arrayDeNumeros[0];
+  let pares = 0;
+  let impares = 0;
+ 
+  for (const numero of arrayDeNumeros) {
+    soma += numero;
+ 
+    if (numero > maior) maior = numero;
+    if (numero < menor) menor = numero;
+ 
+    if (numero % 2 === 0) {
+      pares++;
+    } else {
+      impares++;
+    }
+  }
+ 
+  const media = Math.round((soma / arrayDeNumeros.length) * 100) / 100;
+ 
+  return {
+    total: arrayDeNumeros.length,
+    maior: maior,
+    menor: menor,
+    media: media,
+    pares: pares,
+    impares: impares
+  };
+}
+ 
+ 
+console.log(analisarNumeros([12, 5, 8, 130, 44, 3]));
+console.log(analisarNumeros([1, 2, 3, 4, 5]));
+console.log(analisarNumeros([10]));
+console.log(analisarNumeros([]));
+
+//Questao 6
+// Conversor Universal de Temperaturas
+
+function celsiusParaFahrenheit(celsius) {
+  if (typeof celsius !== "number") {
+    return "Entrada inválida, informe um número";
+  }
+ 
+  const fahrenheit = (celsius * 1.8) + 32;
+  return Math.round(fahrenheit * 100) / 100;
+}
+ 
+function fahrenheitParaCelsius(fahrenheit) {
+  if (typeof fahrenheit !== "number") {
+    return "Entrada inválida, informe um número";
+  }
+ 
+  const celsius = (fahrenheit - 32) / 1.8;
+  return Math.round(celsius * 100) / 100;
+}
+ 
+ 
+console.log(celsiusParaFahrenheit(30));
+console.log(fahrenheitParaCelsius(86));
+console.log(celsiusParaFahrenheit(0));
+console.log(fahrenheitParaCelsius(98.6));
+console.log(celsiusParaFahrenheit("trinta"));
+
+//Questao 7
+// Contador de Vogais, Consoantes e Espacos
+
+function contarCaracteres(texto) {
+  const semAcento = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const minusculo = semAcento.toLowerCase();
+ 
+  let vogais = 0;
+  let consoantes = 0;
+  let espacos = 0;
+  let especiais = 0;
+ 
+  const letrasVogais = "aeiou";
+ 
+  for (const letra of minusculo) {
+    if (letra === " ") {
+      espacos++;
+    } else if (letrasVogais.includes(letra)) {
+      vogais++;
+    } else if (/[a-z]/.test(letra)) {
+      consoantes++;
+    } else {
+      especiais++;
+    }
+  }
+ 
+  return {
+    vogais: vogais,
+    consoantes: consoantes,
+    espacos: espacos,
+    especiais: especiais,
+    total: texto.length
+  };
+}
+ 
+ 
+console.log(contarCaracteres("Desenvolvimento de APIs REST!"));
+console.log(contarCaracteres("Olá, tudo bem?"));
+console.log(contarCaracteres("JavaScript 2026"));
+
+//Questao 8
+// Gerador de Tokens e Codigos de Cupom
+
+function gerarTokenAleatorio(tamanho = 8, tipo = "alfanumerico") {
+  let caracteres;
+ 
+  if (tipo === "numerico") {
+    caracteres = "0123456789";
+  } else if (tipo === "letras") {
+    caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  } else {
+    caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  }
+ 
+  let token = "";
+ 
+  for (let i = 0; i < tamanho; i++) {
+    const indice = Math.floor(Math.random() * caracteres.length);
+    token += caracteres[indice];
+  }
+ 
+  return token;
+}
+ 
+// testes (o resultado muda a cada execucao pq e aleatorio)
+ 
+console.log(gerarTokenAleatorio(8, "alfanumerico"));
+console.log(gerarTokenAleatorio(6, "numerico"));
+console.log(gerarTokenAleatorio(10, "letras"));
+console.log(gerarTokenAleatorio()); // usando os valores padrao
+
+// Questao 9
+// Localizador da Maior Palavra em Frases
+
+function encontrarMaiorPalavra(frase) {
+  const semPontuacao = frase.replace(/[.,!?;:()"']/g, "");
+  const palavras = semPontuacao.split(" ");
+ 
+  let maiorPalavra = "";
+ 
+  for (const palavra of palavras) {
+    if (palavra.length > maiorPalavra.length) {
+      maiorPalavra = palavra;
+    }
+  }
+ 
+  return {
+    palavra: maiorPalavra,
+    tamanho: maiorPalavra.length
+  };
+}
+ 
+// testes
+ 
+console.log(encontrarMaiorPalavra("O desenvolvimento de microsserviços e APIs é essencial."));
+console.log(encontrarMaiorPalavra("Node.js e Javascript sao ferramentas incriveis."));
+console.log(encontrarMaiorPalavra("Gato cachorro elefante"));
+
+// Questao 10
+// Sorteador e Distribuidor de Equipes / Times
+
+ 
+function distribuirTimes(listaDeNomes, quantidadeDeTimes) {
+  const embaralhada = [...listaDeNomes];
+ 
+  // Fisher-Yates
+  for (let i = embaralhada.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = embaralhada[i];
+    embaralhada[i] = embaralhada[j];
+    embaralhada[j] = temp;
+  }
+ 
+  const times = [];
+  for (let i = 0; i < quantidadeDeTimes; i++) {
+    times.push([]);
+  }
+ 
+  embaralhada.forEach((nome, indice) => {
+    const time = indice % quantidadeDeTimes;
+    times[time].push(nome);
+  });
+ 
+  return times;
+}
+ 
+
+ 
+console.log(distribuirTimes(["Ana", "Bruno", "Carlos", "Diana", "Eduardo", "Fernanda"], 2));
+console.log(distribuirTimes(["Ana", "Bruno", "Carlos", "Diana", "Eduardo", "Fernanda", "Gabriel"], 3));
+console.log(distribuirTimes(["Pedro", "Julia", "Marcos", "Sofia"], 4));
